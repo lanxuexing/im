@@ -5,7 +5,8 @@ import 'package:im/home/constants.dart' show AppColors;
 void main() => runApp(MaterialApp(
   title: 'IM',
   theme: ThemeData.light().copyWith(
-    primaryColor: Color(AppColors.APPBarColor)
+    primaryColor: Color(AppColors.APPBarColor),
+    cardColor: Color(AppColors.APPBarColor)
   ),
   home: HomePage(),
 ));

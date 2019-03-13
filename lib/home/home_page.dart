@@ -12,6 +12,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<NavigationIconView> _navigationViews;
+  int _currentIndex = 0;
 
   @override
   void initState() {
@@ -19,27 +20,23 @@ class _HomePageState extends State<HomePage> {
     _navigationViews = <NavigationIconView>[
       NavigationIconView(
         title: '微信',
-        icon: const IconData(0xe793, fontFamily: AppIconFonts.IconFontsFamily),
-        activeIcon:
-            const IconData(0xe797, fontFamily: AppIconFonts.IconFontsFamily),
+        icon: IconData(0xe793, fontFamily: AppIconFonts.IconFontsFamily),
+        activeIcon: IconData(0xe797, fontFamily: AppIconFonts.IconFontsFamily),
       ),
       NavigationIconView(
         title: '通讯录',
-        icon: const IconData(0xe601, fontFamily: AppIconFonts.IconFontsFamily),
-        activeIcon:
-            const IconData(0xe600, fontFamily: AppIconFonts.IconFontsFamily),
+        icon: IconData(0xe601, fontFamily: AppIconFonts.IconFontsFamily),
+        activeIcon: IconData(0xe600, fontFamily: AppIconFonts.IconFontsFamily),
       ),
       NavigationIconView(
         title: '发现',
-        icon: const IconData(0xe786, fontFamily: AppIconFonts.IconFontsFamily),
-        activeIcon:
-            const IconData(0xe788, fontFamily: AppIconFonts.IconFontsFamily),
+        icon: IconData(0xe786, fontFamily: AppIconFonts.IconFontsFamily),
+        activeIcon: IconData(0xe788, fontFamily: AppIconFonts.IconFontsFamily),
       ),
       NavigationIconView(
         title: '我',
-        icon: const IconData(0xe7ab, fontFamily: AppIconFonts.IconFontsFamily),
-        activeIcon:
-            const IconData(0xe6a2, fontFamily: AppIconFonts.IconFontsFamily),
+        icon: IconData(0xe7ab, fontFamily: AppIconFonts.IconFontsFamily),
+        activeIcon: IconData(0xe6a2, fontFamily: AppIconFonts.IconFontsFamily),
       ),
     ];
   }
@@ -47,19 +44,46 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final BottomNavigationBar bottomNavBar = BottomNavigationBar(
+      fixedColor: const Color(AppColors.TabActiveIconColor),
       items: _navigationViews.map((NavigationIconView navigationIconView) {
         return navigationIconView.item;
       }).toList(),
-      currentIndex: 0,
+      currentIndex: _currentIndex,
       type: BottomNavigationBarType.fixed,
       onTap: (int index) {
-        print('您点击了第$index个按钮');
+        setState(() {
+          _currentIndex = index;
+        });
       },
     );
 
+    // 创建悬浮窗体列表项
+    _buildPopupMenuItem(int iconName, String title) {
+      return Row(
+        children: <Widget>[
+          Icon(
+            IconData(iconName, fontFamily: AppIconFonts.IconFontsFamily),
+            color: const Color(AppColors.AppBarPopupMenuTextColorColor),
+          ),
+          SizedBox(
+            width: 16.0,
+          ),
+          Text(
+            title,
+            style: TextStyle(
+              color: const Color(AppColors.AppBarPopupMenuTextColorColor),
+            ),
+          )
+        ],
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('微信'),
+        title: Text(
+          '微信',
+          style: TextStyle(fontSize: 16.0),
+        ),
         actions: <Widget>[
           IconButton(
             // 搜素
@@ -68,14 +92,35 @@ class _HomePageState extends State<HomePage> {
               print('即将进入搜索');
             },
           ),
-          IconButton(
-            // 添加（综合功能）
-            icon: Icon(Icons.add),
-            onPressed: () {
-              print('即将添加操作');
+          PopupMenuButton(
+            // pop弹出窗体
+            itemBuilder: (BuildContext context) {
+              return <PopupMenuItem<PopupActionItem>>[
+                PopupMenuItem(
+                  child: _buildPopupMenuItem(0xe61a, '发起群聊'),
+                  value: PopupActionItem.GROUP_CHAT,
+                ),
+                PopupMenuItem(
+                  child: _buildPopupMenuItem(0xe617, '添加朋友'),
+                  value: PopupActionItem.ADD_FRIEND,
+                ),
+                PopupMenuItem(
+                  child: _buildPopupMenuItem(0xe650, '扫一扫'),
+                  value: PopupActionItem.QR_SCAN,
+                ),
+                PopupMenuItem(
+                  child: _buildPopupMenuItem(0xe611, '收付款'),
+                  value: PopupActionItem.PAYMENT,
+                ),
+              ];
             },
-          )
+            icon: Icon(Icons.add),
+            onSelected: (PopupActionItem selected) {
+              print('你点击的是$selected');
+            },
+          ),
         ],
+        elevation: 0.0,
       ),
       body: Container(
         color: Colors.lightBlue,
@@ -87,29 +132,19 @@ class _HomePageState extends State<HomePage> {
 
 // 底部导航栏封装类
 class NavigationIconView {
-  final String _title;
-  final IconData _icon;
-  final IconData _activeIcon;
   final BottomNavigationBarItem item;
 
   NavigationIconView(
       {Key key, String title, IconData icon, IconData activeIcon})
-      : _title = title,
-        _icon = icon,
-        _activeIcon = activeIcon,
-        item = BottomNavigationBarItem(
-            icon: Icon(
-              icon,
-              color: Color(AppColors.TabIconColor),
-            ),
-            activeIcon: Icon(
-              activeIcon,
-              color: Color(AppColors.TabActiveIconColor),
-            ),
+      : item = BottomNavigationBarItem(
+            icon: Icon(icon),
+            activeIcon: Icon(activeIcon),
             title: Text(
               title,
-              style: TextStyle(
-                  fontSize: 14.0, color: Color(AppColors.TabIconColor)),
+              style: TextStyle(fontSize: 14.0),
             ),
             backgroundColor: Colors.white);
 }
+
+// pop弹出窗体枚举类
+enum PopupActionItem { GROUP_CHAT, ADD_FRIEND, QR_SCAN, PAYMENT }
