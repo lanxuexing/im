@@ -12,6 +12,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<NavigationIconView> _navigationViews;
+  PageController _pageController;
+  List<Widget> _pages;
   int _currentIndex = 0;
 
   @override
@@ -39,6 +41,15 @@ class _HomePageState extends State<HomePage> {
         activeIcon: IconData(0xe6a2, fontFamily: AppIconFonts.IconFontsFamily),
       ),
     ];
+    _pageController = PageController(
+      initialPage: _currentIndex,
+    );
+    _pages = [
+      Container(color: Colors.red,),
+      Container(color: Colors.green,),
+      Container(color: Colors.blue,),
+      Container(color: Colors.purple,),
+    ];
   }
 
   @override
@@ -53,6 +64,11 @@ class _HomePageState extends State<HomePage> {
       onTap: (int index) {
         setState(() {
           _currentIndex = index;
+          _pageController.animateToPage(
+            _currentIndex,
+            duration: Duration(milliseconds: 200),
+            curve: Curves.easeInOut,
+          );
         });
       },
     );
@@ -122,8 +138,17 @@ class _HomePageState extends State<HomePage> {
         ],
         elevation: 0.0,
       ),
-      body: Container(
-        color: Colors.lightBlue,
+      body: PageView.builder(
+        itemBuilder: (BuildContext context, int index) {
+          return _pages[index];
+        },
+        itemCount: _pages.length,
+        controller: _pageController,
+        onPageChanged: (int index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
       ),
       bottomNavigationBar: bottomNavBar,
     );
