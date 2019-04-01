@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:im/home/constants.dart' show AppIconFonts;
 import 'package:im/home/constants.dart' show AppColors;
-import 'package:im/home/wechat_page.dart';
+import 'package:im/home/wechat/wechat_page.dart';
 
 class HomePage extends StatefulWidget {
   final Widget child;

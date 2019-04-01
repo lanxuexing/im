@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:im/home/constants.dart' show AppStyles, AppColors;
-import 'package:im/home/wechat/wechat_modal.dart' show WechatMockData, WechatModal;
+import 'package:im/home/wechat/wechat_modal.dart'
+    show WechatMockData, WechatModal;
 
 class WeChat extends StatefulWidget {
   final Widget child;
@@ -46,10 +47,15 @@ class _BuildWechatPage extends StatelessWidget {
       ),
       child: Row(
         children: <Widget>[
-          Image.network(
-            wechatModal.avatar,
-            width: AppStyles.AvatarSize,
-          ),
+          wechatModal.isAvatarFromNet()
+              ? Image.network(
+                  wechatModal.avatar,
+                  width: AppStyles.AvatarSize,
+                )
+              : Image.asset(
+                  wechatModal.avatar,
+                  width: AppStyles.AvatarSize,
+                ),
           SizedBox(
             width: 10.0,
           ),
@@ -61,7 +67,9 @@ class _BuildWechatPage extends StatelessWidget {
                   wechatModal.title,
                   style: AppStyles.TitleStyle,
                 ),
-                SizedBox(height: 4.0,),
+                SizedBox(
+                  height: 4.0,
+                ),
                 Text(
                   wechatModal.msg,
                   maxLines: 1,
@@ -74,10 +82,12 @@ class _BuildWechatPage extends StatelessWidget {
           Column(
             children: <Widget>[
               Text(
-                '17:52',
+                wechatModal.date,
                 style: AppStyles.MsgStyle,
               ),
-              SizedBox(height: 20.0,)
+              SizedBox(
+                height: 20.0,
+              )
             ],
           ),
           SizedBox(

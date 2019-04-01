@@ -24,6 +24,14 @@ class WechatModal {
   })  : assert(avatar != null), // 静态类型检查
         assert(title != null),
         assert(date != null);
+
+  // 判断是否为网络图片
+  bool isAvatarFromNet() {
+    if (this.avatar.indexOf('http') == 0 || this.avatar.indexOf('https') == 0) {
+      return true;
+    }
+    return false;
+  }
 }
 
 // 微信页面Mock数据集合
@@ -42,6 +50,12 @@ class WechatMockData {
       date: '21:10',
     ),
     WechatModal(
+      avatar: 'assets/images/ic_fengchao.png',
+      title: '蜂巢智能柜',
+      msg: '取件通知',
+      date: '2019/3/20',
+    ),
+    WechatModal(
       avatar: 'https://randomuser.me/api/portraits/women/17.jpg',
       title: 'Dangdang',
       msg: '布育量人小越心受毛，小起具但特音么心交，但XL呜会段员。',
@@ -52,6 +66,18 @@ class WechatMockData {
       title: 'Teddy',
       msg: '头下始号分外将内最，下素委劳一业属，容问该查地就都。',
       date: '21:34',
+    ),
+    WechatModal(
+      avatar: 'assets/images/ic_tx_news.png',
+      title: '腾讯新闻',
+      msg: '妈穿玩偶服婚礼送礼惊喜 新婚女儿泪崩',
+      date: '昨天',
+    ),
+    WechatModal(
+      avatar: 'assets/images/ic_file_transfer.png',
+      title: '文件传输助手',
+      msg: '[文件]schedule.zip',
+      date: '昨天',
     ),
     WechatModal(
       avatar: 'https://randomuser.me/api/portraits/women/11.jpg',
