@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:im/home/constants.dart' show AppStyles, AppColors;
-import 'package:im/home/wechat_modal.dart' show WechatMockData, WechatModal;
+import 'package:im/home/wechat/wechat_modal.dart' show WechatMockData, WechatModal;
 
 class WeChat extends StatefulWidget {
   final Widget child;
