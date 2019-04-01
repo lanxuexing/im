@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:im/home/constants.dart' show AppIconFonts;
 import 'package:im/home/constants.dart' show AppColors;
+import 'package:im/home/wechat_page.dart';
 
 class HomePage extends StatefulWidget {
   final Widget child;
@@ -45,7 +46,7 @@ class _HomePageState extends State<HomePage> {
       initialPage: _currentIndex,
     );
     _pages = [
-      Container(color: Colors.red,),
+      WeChat(),
       Container(color: Colors.green,),
       Container(color: Colors.blue,),
       Container(color: Colors.purple,),
